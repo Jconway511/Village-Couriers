@@ -1,35 +1,47 @@
 package com.example.villagecouriers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.List;
 
 public class HomePageActivity extends AppCompatActivity {
-    private UserRepository userRepository;
-    private ListView listView;
-
-
     protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.home_page);
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_page);
+    Button btnShop = findViewById(R.id.btnShop);
+    Button btnOrders = findViewById(R.id.btnOrders);
+    Button btnUserDetails = findViewById(R.id.btnUserDetails);
 
-        ListView listView = findViewById(R.id.listView);
+        btnShop.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
-        userRepository = new UserRepository(this);
-        loadUsers();
-    }
-    private void loadUsers() {
-        userRepository.open();
-        List<User> users = userRepository.getAllUsers();
-        userRepository.close();
-        ArrayAdapter<User> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, users);
-        listView.setAdapter(adapter);
+            Intent intent = new Intent(HomePageActivity.this, ShopActivity.class);
+            startActivity(intent);
+        }});
 
+        btnOrders.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
 
+            Intent intent = new Intent(HomePageActivity.this, OrderActivity.class);
+            startActivity(intent);
+
+        }});
+        btnUserDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(HomePageActivity.this, UserDetails.class);
+                startActivity(intent);
+            }});
     }
 }

@@ -23,6 +23,10 @@ public class User {
         this.name = name;
     }
 
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
     public String getEmail() {
         return email;
     }

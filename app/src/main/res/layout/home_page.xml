@@ -5,14 +5,39 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal">
 
-    <ListView
-        android:id="@+id/listView"
+    <TextView
+        android:id="@+id/TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:id="@+id/btnShop"
+        android:layout_below="@id/TextView"
+        android:layout_marginTop="75dp"
+        android:padding="10dp"
+        android:text="Shop"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnOrders"
+        android:layout_below="@id/btnShop"
+        android:padding="10dp"
         android:layout_marginTop="20dp"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"
-        android:padding="10dp"/>
+        android:text="View Orders"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnUserDetails"
+        android:layout_below="@id/btnOrders"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:text="Access your profile"
+        />
 
 </RelativeLayout>

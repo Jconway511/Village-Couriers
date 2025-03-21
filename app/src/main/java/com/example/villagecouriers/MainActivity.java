@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    private DatabaseHelper dbHelper;
 
     private EditText etName, etEmail, etPassword;
 
@@ -20,11 +20,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dbHelper = new DatabaseHelper(this);
+        dbHelper.generateSampleUsers();
+
 
         etName = findViewById(R.id.etName);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
-        Button btnLogIn = (Button) findViewById(R.id.btnLogIn);
+        Button btnLogIn = findViewById(R.id.btnLogIn);
+        Button btnSignUp = findViewById(R.id.btnSignUp);
 
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,13 +57,15 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainActivity.this, HomePageActivity.class);
                 startActivity(intent);
+            }});
 
-            }
-        });
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+                startActivity(intent);
 
-    }
-
-    // Load users from database
-
-}
+                }});
+        }
+        }

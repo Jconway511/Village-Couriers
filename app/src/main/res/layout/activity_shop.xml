@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding = "16dp">
+
+    <EditText
+        android:id="@+id/etItem1"
+        android:layout_width="148dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter item"
+        android:minHeight="48dp" />
+    <EditText
+        android:id="@+id/etItem2"
+        android:layout_width="148dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter item"
+        android:minHeight="48dp" />
+    <EditText
+        android:id="@+id/etItem3"
+        android:layout_width="148dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter item"
+        android:minHeight="48dp" />
+    <EditText
+        android:id="@+id/etItem4"
+        android:layout_width="148dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter item"
+        android:minHeight="48dp" />
+    <EditText
+        android:id="@+id/etItem5"
+        android:layout_width="148dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter item"
+        android:minHeight="48dp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutItems"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="16dp"/>
+
+    <Button
+        android:id="@+id/btnAddItemToOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Item"
+
+         />
+
+    <Button
+        android:id="@+id/btnCompleteOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Complete Order"
+
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewItems"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        />
+
+
+
+</LinearLayout>

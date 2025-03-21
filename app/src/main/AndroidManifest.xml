@@ -22,7 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomePageActivity"> </activity>
+
+        <activity android:name=".HomePageActivity"/>
+        <activity android:name=".SignUpActivity"/>
+        <activity android:name=".ShopActivity" />
+        <activity android:name=".OrderActivity" />
+
     </application>
 
 </manifest>
