@@ -12,13 +12,19 @@ import android.widget.ListView;
 import java.util.List;
 
 public class HomePageActivity extends AppCompatActivity {
+
+    private Button btnShop;
+    private Button btnOrders;
+    private Button btnUserDetails;
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.home_page);
 
-    Button btnShop = findViewById(R.id.btnShop);
-    Button btnOrders = findViewById(R.id.btnOrders);
-    Button btnUserDetails = findViewById(R.id.btnUserDetails);
+     btnShop = findViewById(R.id.btnShop);
+     btnOrders = findViewById(R.id.btnOrders);
+     btnUserDetails = findViewById(R.id.btnUserDetails);
 
         btnShop.setOnClickListener(new View.OnClickListener() {
         @Override

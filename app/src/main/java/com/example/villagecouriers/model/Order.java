@@ -1,4 +1,4 @@
-package com.example.villagecouriers;
+package com.example.villagecouriers.model;
 
 public class Order {
     private long orderId;

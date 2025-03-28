@@ -6,19 +6,19 @@
     android:padding = "16dp">
 
     <EditText
-        android:id="@+id/etItem1"
+        android:id="@+id/etItemName"
         android:layout_width="148dp"
         android:layout_height="wrap_content"
         android:hint="Enter item"
         android:minHeight="48dp" />
     <EditText
-        android:id="@+id/etItem2"
+        android:id="@+id/etItemQuantity"
         android:layout_width="148dp"
         android:layout_height="wrap_content"
         android:hint="Enter item"
         android:minHeight="48dp" />
     <EditText
-        android:id="@+id/etItem3"
+        android:id="@+id/etItemPrice"
         android:layout_width="148dp"
         android:layout_height="wrap_content"
         android:hint="Enter item"
@@ -36,12 +36,7 @@
         android:hint="Enter item"
         android:minHeight="48dp" />
 
-    <LinearLayout
-        android:id="@+id/linearLayoutItems"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="16dp"/>
+
 
     <Button
         android:id="@+id/btnAddItemToOrder"
@@ -59,11 +54,6 @@
 
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewItems"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        />
 
 
 

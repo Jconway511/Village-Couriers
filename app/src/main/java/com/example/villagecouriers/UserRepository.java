@@ -91,10 +91,12 @@ public class UserRepository {
     // Helper method to convert cursor to User object
     @SuppressLint("Range")
     private User cursorToUser(Cursor cursor) {
-        User user = new User();
-        user.setId(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID)));
-        user.setName(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME)));
-        user.setEmail(cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_EMAIL)));
-        return user;
+        return new User(
+                cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_ID)),
+                cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME)),
+                cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_EMAIL)),
+                cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_PASSWORD)),
+                cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_USERTYPE))
+        );
     }
 }

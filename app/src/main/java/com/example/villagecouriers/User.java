@@ -1,17 +1,27 @@
 package com.example.villagecouriers;
 
 public class User {
-    private long id;
+    private int id;
     private String name;
     private String email;
     private String userType;
+    private String password;
+
+    public User(int id, String name, String email, String password, String userType) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.userType = userType;
+        this.password = password;
+    }
+
 
     // Getters and setters
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -36,5 +46,17 @@ public class User {
     }
     public String getUserType() {
         return userType;
+    }
+
+    public String toString() {
+        return "Name: " + name + " (" + email + ")";
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

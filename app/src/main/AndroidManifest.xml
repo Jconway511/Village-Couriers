@@ -27,6 +27,8 @@
         <activity android:name=".SignUpActivity"/>
         <activity android:name=".ShopActivity" />
         <activity android:name=".OrderActivity" />
+        <activity android:name=".UserDetails" />
+
 
     </application>
 
