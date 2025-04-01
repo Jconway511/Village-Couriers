@@ -5,7 +5,6 @@ public class ItemOrder {
     private String item_name;
     private String item_quantity;
     private String item_price;
-    private String item_image;
 
     public ItemOrder(String item_name, String item_quantity, String item_price) {
         this.item_name = item_name;
@@ -36,10 +35,6 @@ public class ItemOrder {
 
     public void setItem_price(String item_price) {
         this.item_price = item_price;
-    }
-
-    public String getItem_image() {
-        return item_image;
     }
 
 
