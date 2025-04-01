@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -41,10 +42,8 @@ public class SignUpActivity extends AppCompatActivity {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.user_types, android.R.layout.simple_spinner_item);
-
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         // Apply the adapter to the spinner
         spinnerUserType.setAdapter(adapter);
 
@@ -88,11 +87,11 @@ public class SignUpActivity extends AppCompatActivity {
                 writeUsersToFile(users);
 
             // Handle the selected user type
-            Toast.makeText(SignUpActivity.this, "Selected User Type: " + userType, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SignUpActivity.this, HomePageActivity.class);
-            startActivity(intent);
-            finish();
-            // Add your form submission logic here
+                Toast.makeText(SignUpActivity.this, "Selected User Type: " + userType, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SignUpActivity.this, HomePageActivity.class);
+                startActivity(intent);
+                finish();
+
             }catch (Exception e){
                 e.printStackTrace();
                 Toast.makeText(SignUpActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -101,7 +100,16 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
     private List<User> readUsersFromFile() throws Exception {
-        FileInputStream fis = openFileInput("users.json");
+        FileInputStream fis;
+        try {
+            fis = openFileInput("users.json");
+        } catch (FileNotFoundException e) {
+            // Create the file if it doesn't exist
+            FileOutputStream fos = openFileOutput("users.json", Context.MODE_PRIVATE);
+            fos.write("[]".getBytes()); // Initialize with an empty JSON array
+            fos.close();
+            fis = openFileInput("users.json");
+        }
         BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
         StringBuilder jsonBuilder = new StringBuilder();
         String line;
@@ -126,6 +134,9 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void writeUsersToFile(List<User> users) throws Exception {
+        List<User> existingUsers = readUsersFromFile();
+        existingUsers.addAll(users);
+
         JSONArray jsonArray = new JSONArray();
         for (User user : users) {
             JSONObject jsonObject = new JSONObject();

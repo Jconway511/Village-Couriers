@@ -7,11 +7,11 @@ public class ItemOrder {
     private String item_price;
     private String item_image;
 
-    public ItemOrder(String item_name, String item_quantity, String item_price, String item_image) {
+    public ItemOrder(String item_name, String item_quantity, String item_price) {
         this.item_name = item_name;
         this.item_quantity = item_quantity;
         this.item_price = item_price;
-        this.item_image = item_image;
+
     }
 
     public String getItem_name() {
@@ -42,7 +42,5 @@ public class ItemOrder {
         return item_image;
     }
 
-    public void setItem_image(String item_image) {
-        this.item_image = item_image;
-    }
+
 }

@@ -2,6 +2,7 @@ package com.example.villagecouriers;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -37,12 +38,9 @@ public class ShopActivity extends AppCompatActivity  {
     private EditText etItemName, etItemQuantity, etItemPrice;
     private Button btnAddItemToOrder;
     private Button btnCompleteOrder;
-    private RecyclerView recyclerViewItems;
-    private ItemAdapter itemAdapter;
-    private ArrayList<String> itemList;
-    private LinearLayout linearLayoutItems;
+    private Button btnHome;
+    private List<Order> orderList = new ArrayList<>();
     private DatabaseHelper dbHelper;
-    private UserRepository userRepository;
 
     private List<Order> readOrders(){
         try (FileReader reader = new FileReader(Orders_File)){
@@ -68,35 +66,40 @@ public class ShopActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        userRepository = new UserRepository(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
 
 
         btnAddItemToOrder = findViewById(R.id.btnAddItemToOrder);
         btnCompleteOrder = findViewById(R.id.btnCompleteOrder);
+        btnHome = findViewById(R.id.btnHome);
+
 
         etItemName = findViewById(R.id.etItemName);
         etItemQuantity = findViewById(R.id.etItemQuantity);
         etItemPrice = findViewById(R.id.etItemPrice);
         dbHelper = new DatabaseHelper(this);
 
-        itemList = new ArrayList<>();
-        itemAdapter = new ItemAdapter(itemList);
 
         btnAddItemToOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText newItem = new EditText(ShopActivity.this);
-                newItem.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-                newItem.setHint("Enter item");
-                linearLayoutItems.addView(newItem);
+                String itemName = etItemName.getText().toString().trim();
+                int quantity = Integer.parseInt(etItemQuantity.getText().toString().trim());
+                double price = Double.parseDouble(etItemPrice.getText().toString().trim());
+                long orderId = System.currentTimeMillis(); // Generate a unique order ID
+
+                Order order = new Order(orderId ,itemName, quantity, price);
+                orderList.add(order);
+                Toast.makeText(ShopActivity.this, "Item added to order", Toast.LENGTH_SHORT).show();
             }
         });
-
-
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShopActivity.this, HomePageActivity.class);
+                startActivity(intent);
+            }});
         btnCompleteOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,13 +124,8 @@ public class ShopActivity extends AppCompatActivity  {
                     etItemPrice.requestFocus();
                     return;
                 }
-
                 try {
-                    List<ItemOrder> orders = readOrdersFromFile();
-                    ItemOrder newOrder = new ItemOrder(itemName, itemQuantity, itemPrice, ""); // Assuming itemImage is not required
-                    orders.add(newOrder);
-                    writeOrdersToFile(orders);
-
+                    writeOrdersToFile(orderList);
                     Toast.makeText(ShopActivity.this, "Order added successfully", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -152,39 +150,13 @@ public class ShopActivity extends AppCompatActivity  {
             Toast.makeText(this, "Error adding order", Toast.LENGTH_SHORT).show();
         }
     }
-
-    private List<ItemOrder> readOrdersFromFile() throws Exception {
-        FileInputStream fis = openFileInput("orders.json");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-        StringBuilder jsonBuilder = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            jsonBuilder.append(line);
-        }
-        reader.close();
-        fis.close();
-
-        JSONArray jsonArray = new JSONArray(jsonBuilder.toString());
-        List<ItemOrder> orders = new ArrayList<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            String itemName = jsonObject.getString("item_name");
-            String itemQuantity = jsonObject.getString("item_quantity");
-            String itemPrice = jsonObject.getString("item_price");
-            String itemImage = jsonObject.getString("item_image");
-            orders.add(new ItemOrder(itemName, itemQuantity, itemPrice, itemImage));
-        }
-        return orders;
-    }
-
-    private void writeOrdersToFile(List<ItemOrder> orders) throws Exception {
+    private void writeOrdersToFile(List<Order> orders) throws Exception {
         JSONArray jsonArray = new JSONArray();
-        for (ItemOrder order : orders) {
+        for (Order order : orders) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("item_name", order.getItem_name());
-            jsonObject.put("item_quantity", order.getItem_quantity());
-            jsonObject.put("item_price", order.getItem_price());
-            jsonObject.put("item_image", order.getItem_image());
+            jsonObject.put("item_name", order.getItemName());
+            jsonObject.put("item_quantity", order.getQuantity());
+            jsonObject.put("item_price", order.getPrice());
             jsonArray.put(jsonObject);
         }
 

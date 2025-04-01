@@ -45,7 +45,7 @@ public class UserDetails  extends  AppCompatActivity {
         recyclerViewUserDetails = findViewById(R.id.lvUserDetails);
         recyclerViewUserDetails.setLayoutManager(new LinearLayoutManager(this));
 
-
+        userRepository = new UserRepository(this);
         userRepository.open();
         userList = readUsersFromFile();
         User loggedInUser = userRepository.getLoggedInUser();
@@ -56,6 +56,7 @@ public class UserDetails  extends  AppCompatActivity {
         Button btnDelete = findViewById(R.id.btnDeleteProfile);
         Button btnEdit = findViewById(R.id.btnEditProfile);
         Button btnLogOut = findViewById(R.id.btnLogOut);
+        Button btnHome = findViewById(R.id.btnHome);
 
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +82,13 @@ public class UserDetails  extends  AppCompatActivity {
 
             }
         });
+                btnHome.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(UserDetails.this, HomePageActivity.class);
+                        startActivity(intent);
+
+                    }});
 
     }
     private List<User> readUsersFromFile() {

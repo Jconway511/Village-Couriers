@@ -5,20 +5,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-
-        android:id="@+id/recyclerViewItems"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/item_Name"
+        android:layout_width="148dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        tools:listitem="@layout/item_order"
-        />
+        android:hint="Enter Item Name"
+        android:minHeight="48dp" />
+    <TextView
+        android:id="@+id/item_Price"
+        android:layout_width="148dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter Price"
+        android:minHeight="48dp" />
+    <TextView
+        android:id="@+id/item_quantity"
+        android:layout_width="148dp"
+        android:layout_height="wrap_content"
+        android:hint="Enter Quantity"
+        android:minHeight="48dp" />
 
 
     <Button
+        android:id="@+id/btnHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Orders"
+        android:text="Home"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
         />
 
 
