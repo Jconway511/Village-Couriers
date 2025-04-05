@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,38 +22,35 @@ import java.util.List;
 
 
 public class UserDetails  extends  AppCompatActivity {
-    private RecyclerView recyclerViewUserDetails;
-    private UserDetailsAdapter userDetailsAdapter;
+    private TextView userName;
+    private TextView userEmail;
+    private TextView userType;
     private List<User> userList;
     private UserRepository userRepository;
-    private ListView lvUserDetails;
 
-    private void displayUserDetails(User user) {
-        List<String> userDetails = new ArrayList<>();
-        userDetails.add("Name: " + user.getName());
-        userDetails.add("Email: " + user.getEmail());
-        userDetails.add("User Type: " + user.getUserType());
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, userDetails);
-        lvUserDetails.setAdapter(adapter);
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_details);
 
+        userName = findViewById(R.id.user_Name);
+        userEmail = findViewById(R.id.user_Email);
+        userType = findViewById(R.id.user_Type);
 
-        recyclerViewUserDetails = findViewById(R.id.lvUserDetails);
-        recyclerViewUserDetails.setLayoutManager(new LinearLayoutManager(this));
 
         userRepository = new UserRepository(this);
         userRepository.open();
-        userList = readUsersFromFile();
         User loggedInUser = userRepository.getLoggedInUser();
 
-        userDetailsAdapter = new UserDetailsAdapter(userList);
-        recyclerViewUserDetails.setAdapter(userDetailsAdapter);
+        if (loggedInUser != null) {
+            userName.setText("User name: "+loggedInUser.getName());
+            userEmail.setText("Email: "+loggedInUser.getEmail());
+            userType.setText("User Type: "+loggedInUser.getUserType());
+        }
+
 
         Button btnDelete = findViewById(R.id.btnDeleteProfile);
         Button btnEdit = findViewById(R.id.btnEditProfile);
@@ -117,6 +116,12 @@ public class UserDetails  extends  AppCompatActivity {
         }
         return users;
     }
+    private void displayUserDetails(User user) {
+        List<String> userDetails = new ArrayList<>();
+        userDetails.add("Name: " + user.getName());
+        userDetails.add("Email: " + user.getEmail());
+        userDetails.add("User Type: " + user.getUserType());
 
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, userDetails);
+    }
 }

@@ -9,42 +9,22 @@
         android:id="@+id/etItemName"
         android:layout_width="148dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:hint="Enter item"
         android:minHeight="48dp" />
     <EditText
         android:id="@+id/etItemQuantity"
         android:layout_width="148dp"
         android:layout_height="wrap_content"
-        android:hint="Enter item"
+        android:hint="Enter amount"
         android:minHeight="48dp" />
     <EditText
         android:id="@+id/etItemPrice"
         android:layout_width="148dp"
         android:layout_height="wrap_content"
-        android:hint="Enter item"
-        android:minHeight="48dp" />
-    <EditText
-        android:id="@+id/etItem4"
-        android:layout_width="148dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter item"
-        android:minHeight="48dp" />
-    <EditText
-        android:id="@+id/etItem5"
-        android:layout_width="148dp"
-        android:layout_height="wrap_content"
-        android:hint="Enter item"
+        android:hint="Enter price"
         android:minHeight="48dp" />
 
-
-
-    <Button
-        android:id="@+id/btnAddItemToOrder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Item"
-
-         />
 
     <Button
         android:id="@+id/btnCompleteOrder"
@@ -62,8 +42,5 @@
         android:padding="10dp"
         android:layout_marginTop="20dp"
         />
-
-
-
 
 </LinearLayout>

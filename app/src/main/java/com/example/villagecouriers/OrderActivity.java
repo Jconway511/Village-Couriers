@@ -1,9 +1,11 @@
 package com.example.villagecouriers;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,33 +20,38 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private ItemOrderAdapter itemOrderAdapter;
-    private List<ItemOrder> itemOrderList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
+
+
+        TextView tvItemName = findViewById(R.id.item_name);
+        TextView tvQuantity = findViewById(R.id.item_quantity);
+        TextView tvPrice = findViewById(R.id.item_price);
         Button btnHome = findViewById(R.id.btnHome);
 
-        TextView itemNameTextView = findViewById(R.id.item_Name);
-        TextView itemPriceTextView = findViewById(R.id.item_Price);
-        TextView itemQuantityTextView = findViewById(R.id.item_quantity);
+
 
         try{
-            Order order = readOrderFromFile();
-            assert order != null;
-            itemNameTextView.setText(order.getItemName());
-            itemPriceTextView.setText(String.valueOf(order.getPrice()));
-            itemQuantityTextView.setText(String.valueOf(order.getQuantity()));
-        }
-        catch (Exception e) {
+            List<Order> orderList = readOrdersFromFile();
+            if (!orderList.isEmpty()) {
+                Order order = orderList.get(0); // Display the first order for simplicity
+                tvItemName.setText(order.getItemName());
+                tvQuantity.setText(String.valueOf(order.getQuantity()));
+                tvPrice.setText(String.valueOf(order.getPrice()));
+            } else {
+                Toast.makeText(this, "No orders found", Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -57,30 +64,36 @@ public class OrderActivity extends AppCompatActivity {
             }});
     }
 
-    private Order readOrderFromFile() throws Exception {
-        FileInputStream fis;
-        try {
-            fis = openFileInput("order.json");
-        } catch (FileNotFoundException e) {
-            return null;
-        }
-        BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+    private List<Order> readOrdersFromFile() throws Exception {
+
+        AssetManager assetManager = getAssets();
+        InputStream inputStream = assetManager.open("orders.json");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder jsonBuilder = new StringBuilder();
         String line;
         while ((line = reader.readLine()) != null) {
             jsonBuilder.append(line);
         }
         reader.close();
-        fis.close();
+        inputStream.close();
 
-        JSONObject jsonObject = new JSONObject(jsonBuilder.toString());
+        JSONArray jsonArray= new JSONArray(jsonBuilder.toString());
+        List<Order> orders = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);;
         long orderId = jsonObject.getLong("orderId");
         String itemName = jsonObject.getString("itemName");
-        double price = jsonObject.getDouble("Price");
-        int quantity = jsonObject.getInt("Quantity");
+        double price = jsonObject.getDouble("price");
+        int quantity = jsonObject.getInt("quantity");
 
-        return new Order(orderId,itemName, quantity, price);
+        orders.add(new Order(orderId,itemName, quantity, price));
     }
+        for (Order order : orders) {
+            System.out.println("Order: " + order.getItemName() + ", Quantity: " + order.getQuantity() + ", Price: " + order.getPrice());
+        }
+    return orders;
+    }
+
     private boolean isValidJSON(String jsonString) {
         try {
             new JSONObject(jsonString);
@@ -93,6 +106,4 @@ public class OrderActivity extends AppCompatActivity {
         }
         return true;
     }
-
-
 }

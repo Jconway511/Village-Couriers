@@ -14,6 +14,5 @@ import androidx.appcompat.app.AppCompatActivity;
 public class OrderActivityTest {
     private OrderActivity orderActivity;
     private Context mockContext;
-
 }
 

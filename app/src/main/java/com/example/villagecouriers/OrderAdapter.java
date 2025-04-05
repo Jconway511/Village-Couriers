@@ -6,9 +6,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.List;
+
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
-    private ArrayList<String> orderList;
-    public OrderAdapter(ArrayList<String> orderList) {
+    private List<Order> orderList;
+    public OrderAdapter(List<Order> orderList) {
         this.orderList = orderList;
     }
 
@@ -21,7 +23,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        holder.textViewOrder.setText(orderList.get(position));
+        Order order = orderList.get(position);
+        holder.itemNameTextView.setText(order.getItemName());
+        holder.itemQuantityTextView.setText(String.valueOf(order.getQuantity()));
+        holder.itemPriceTextView.setText(String.valueOf(order.getPrice()));
+        holder.textViewOrder.setText("Order ID: " + order.getOrderId() + ", User ID: " + order.getUserId());
+        System.out.println("Binding order: " +order.getItemName());
     }
 
     @Override
@@ -29,10 +36,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         return orderList.size();
     }
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
+        public TextView itemNameTextView;
+        public TextView itemQuantityTextView;
+        public TextView itemPriceTextView;
         public TextView textViewOrder;
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewOrder = itemView.findViewById(R.id.textViewOrder);
+            itemNameTextView = itemView.findViewById(R.id.item_name);
+            itemPriceTextView = itemView.findViewById(R.id.item_price);
+            itemQuantityTextView = itemView.findViewById(R.id.item_quantity);
         }
     }
 }

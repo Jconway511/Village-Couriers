@@ -6,23 +6,40 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/item_Name"
-        android:layout_width="148dp"
+        android:layout_marginTop="65dp"
+        android:id="@+id/textViewOrder"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter Item Name"
-        android:minHeight="48dp" />
+        android:text="Order"
+        android:padding="10dp"/>
+
     <TextView
-        android:id="@+id/item_Price"
-        android:layout_width="148dp"
+        android:id="@+id/item_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter Price"
-        android:minHeight="48dp" />
+        android:text="Item Name"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText"
+        android:padding="10dp"/>
+
     <TextView
         android:id="@+id/item_quantity"
-        android:layout_width="148dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter Quantity"
-        android:minHeight="48dp" />
+        android:text="Quantity: 1"
+        android:textSize="14sp"
+        tools:ignore="HardcodedText"
+        android:padding="10dp"/>
+
+    <TextView
+        android:id="@+id/item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price: $0.00"
+        android:textSize="14sp"
+        tools:ignore="HardcodedText"
+        android:padding="10dp"/>
 
 
     <Button
