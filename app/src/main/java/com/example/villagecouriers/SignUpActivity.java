@@ -1,6 +1,7 @@
 package com.example.villagecouriers;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,11 +23,20 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
+// created by Jason Conway
 public class SignUpActivity extends AppCompatActivity {
     private Spinner spinnerUserType;
     private EditText etName, etEmail, etPassword, etConfirmPassword;
     private Button btnSignUp;
+
+    private void saveLoggedInUser(String name, String email, String userType) {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("name", name);
+        editor.putString("email", email);
+        editor.putString("userType", userType);
+        editor.apply();
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +56,9 @@ public class SignUpActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinnerUserType.setAdapter(adapter);
+
+
+
 
     btnSignUp.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -81,12 +94,20 @@ public class SignUpActivity extends AppCompatActivity {
             }
             try{
                 List<User> users = readUsersFromFile();
+
+                for (User user : users) {
+                    if (user.getEmail().equalsIgnoreCase(email)) {
+                        etEmail.setError("Email already exists");
+                        etEmail.requestFocus();
+                        return;
+                    }
+                }
                 int newUserId = users.size() + 1;
                 User newUser = new User(newUserId, name, email, password, userType);
                 users.add(newUser);
                 writeUsersToFile(users);
 
-            // Handle the selected user type
+                saveLoggedInUser(newUser.getName(), newUser.getEmail(), newUser.getUserType());
                 Toast.makeText(SignUpActivity.this, "Selected User Type: " + userType, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(SignUpActivity.this, HomePageActivity.class);
                 startActivity(intent);
@@ -133,12 +154,12 @@ public class SignUpActivity extends AppCompatActivity {
         return users;
     }
 
-    private void writeUsersToFile(List<User> users) throws Exception {
-        List<User> existingUsers = readUsersFromFile();
-        existingUsers.addAll(users);
+    private void writeUsersToFile(List<User> newUsers) throws Exception {
 
+        List<User> existingUsers = readUsersFromFile();
+        existingUsers.addAll(newUsers);
         JSONArray jsonArray = new JSONArray();
-        for (User user : users) {
+        for (User user : existingUsers) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", user.getId());
             jsonObject.put("name", user.getName());

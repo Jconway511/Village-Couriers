@@ -16,7 +16,7 @@ import java.util.Random;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
-
+// created by Jason Conway
 public class ShopActivity extends AppCompatActivity  {
     private EditText etItemName, etItemQuantity, etItemPrice;
     private Button btnCompleteOrder;

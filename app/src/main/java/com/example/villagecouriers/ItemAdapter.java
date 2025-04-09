@@ -1,30 +1,33 @@
 package com.example.villagecouriers;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.List;
 
+// created by Jason Conway
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder> {
-    private final ArrayList<String> itemList;
+    private List<ItemOrder> itemList;
 
-    public ItemAdapter(ArrayList<String> itemList) {
+    public ItemAdapter(List<ItemOrder> itemList) {
         this.itemList = itemList;
     }
 
-    @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+    public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_order, parent, false);
         return new ItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+    public void onBindViewHolder(ItemViewHolder holder, int position) {
+        ItemOrder itemOrder = itemList.get(position);
+        holder.itemName.setText(itemOrder.getItem_name());
+        holder.itemQuantity.setText(itemOrder.getItem_quantity());
+        holder.itemPrice.setText(itemOrder.getItem_price());
     }
 
     @Override
@@ -32,12 +35,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         return itemList.size();
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewItem;
+    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+        TextView itemName;
+        TextView itemQuantity;
+        TextView itemPrice;
 
-        public ItemViewHolder(@NonNull View itemView) {
+        public ItemViewHolder(View itemView) {
             super(itemView);
-            textViewItem = itemView.findViewById(R.id.textViewItem);
+            itemName = itemView.findViewById(R.id.item_name);
+            itemQuantity = itemView.findViewById(R.id.item_quantity);
+            itemPrice = itemView.findViewById(R.id.item_price);
         }
     }
 }

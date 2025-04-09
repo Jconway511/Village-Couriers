@@ -1,6 +1,7 @@
 package com.example.villagecouriers;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.View;
@@ -18,11 +19,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
+// created by Jason Conway
 public class MainActivity extends AppCompatActivity {
 
     private EditText etName, etEmail, etPassword;
 
+
+    private void saveLoggedInUser(String name, String email, String userType) {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("name", name);
+        editor.putString("email", email);
+        editor.putString("userType", userType);
+        editor.apply();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 if (validateUser(email, password)) {
+                    User loggedInUser = new User(0, name, email, password, "user"); // Replace with actual user details
+                    saveLoggedInUser(loggedInUser.getName(), loggedInUser.getEmail(), loggedInUser.getUserType());
                 Intent intent = new Intent(MainActivity.this, HomePageActivity.class);
                 startActivity(intent);
                 }else {
@@ -91,7 +103,8 @@ public class MainActivity extends AppCompatActivity {
         reader.close();
         inputStream.close();
 
-        JSONArray jsonArray = new JSONArray(jsonBuilder.toString());
+        JSONObject rootObject = new JSONObject(jsonBuilder.toString());
+        JSONArray jsonArray = rootObject.getJSONArray("users");
         List<User> users = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -102,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
             String userType = jsonObject.getString("userType");
 
             System.out.println("User: " + name + ", Email: " + email + ", Password: " + password + ", UserType: " + userType);
-            
 
             users.add(new User(userId ,name, email, password, userType));
         }
@@ -113,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             List<User> users = readUsersFromFile();
             for (User user : users) {
-                if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                if (user.getEmail().equalsIgnoreCase(email) && user.getPassword().equals(password)) {
                     return true;
                 }
             }

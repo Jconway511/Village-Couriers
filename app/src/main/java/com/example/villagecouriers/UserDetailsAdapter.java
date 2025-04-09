@@ -6,7 +6,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
-
+// created by Jason Conway
 public class UserDetailsAdapter extends RecyclerView.Adapter<UserDetailsAdapter.ViewHolder>{
     private List<User> userList;
 

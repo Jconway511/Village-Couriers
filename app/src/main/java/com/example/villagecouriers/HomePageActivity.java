@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.List;
-
+// created by Jason Conway
 public class HomePageActivity extends AppCompatActivity {
 
     private Button btnShop;
